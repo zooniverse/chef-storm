@@ -1,0 +1,10 @@
+storm.zookeeper.servers:
+<% @zookeepers.each do |zk| %>
+  - <%= zk %>
+<% end %>
+storm.local.dir: <% @storm_dir %>
+nimbus.host: <% @nimbus_host %>
+supervisor.solts.ports:
+<% @supervisor_ports.each do |p| %>
+  - <%= p %>
+<% end %>

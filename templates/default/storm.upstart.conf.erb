@@ -1,0 +1,16 @@
+description "Storm - <%= @process  %>"
+
+start on runlevel [2345]
+stop on [!12345]
+
+respawn
+respawn limit 2 5
+
+umask 007
+
+kill timeout 300
+
+setuid <%= @user %>
+setgid <%= @group %>
+
+exec /opt/storm/storm-<%= @version %>/bin/storm <%= @process %>
