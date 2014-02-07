@@ -63,13 +63,24 @@ end
 
 directory "/opt/storm" do
   owner node['storm']['user']
+  group node['storm']['group']
+  mode '0744'
+end
+
+directory node['storm']['data_dir'] do
+  owner node['storm']['user']
+  group node['storm']['group']
   mode '0744'
 end
 
 unless ::File.exist?("/opt/storm/#{storm_name}")
   execute "install storm" do
     cwd Chef::Config[:file_cache_path]
-    command "tar -C /opt/storm -xzf #{storm_name}.tar.gz"
+    command """
+      tar -C /opt/storm -xzf #{storm_name}.tar.gz && \
+      cd /opt/storm/#{storm_name} && \
+      chown -R storm:storm .
+    """
   end
 end
 
@@ -87,11 +98,6 @@ template "/opt/storm/#{storm_name}/conf/storm.yaml" do
   })
 end
 
-init_vars = {
-  group: node['storm']['group'],
-  user: node['storm']['user'],
-  version: node['storm']['version']
-}
 
 if node['hostname'] == node['storm']['nimbus_host'].split('.').first
   daemons = ['nimbus', 'ui']
@@ -100,7 +106,12 @@ else
 end
   
 daemons.each do |p|
-  init_vars[:process] = p
+  init_vars = {
+    group: node['storm']['group'],
+    user: node['storm']['user'],
+    version: node['storm']['version'],
+    process: p
+  }
 
   template "/etc/init/storm-#{p}.conf" do
     source "storm.upstart.conf.erb"
