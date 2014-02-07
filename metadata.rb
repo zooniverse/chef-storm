@@ -4,7 +4,7 @@ maintainer_email 'ed@zooniverse.org'
 license          'Apache Public License see COPYING'
 description      'Installs/Configures storm'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.1.1'
+version          '0.1.2'
 
 depends 'zeromq'
 depends 'java'
