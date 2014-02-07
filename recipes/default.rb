@@ -93,7 +93,7 @@ init_vars = {
   version: node['storm']['version']
 }
 
-if node['hostname'] == node['storm']['nimbus_host']
+if node['hostname'] == node['storm']['nimbus_host'].split('.').first
   daemons = ['nimbus', 'ui']
 else
   daemons = ['supervisor']
