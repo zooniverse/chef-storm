@@ -78,8 +78,7 @@ unless ::File.exist?("/opt/storm/#{storm_name}")
     cwd Chef::Config[:file_cache_path]
     command """
       tar -C /opt/storm -xzf #{storm_name}.tar.gz && \
-      cd /opt/storm/#{storm_name} && \
-      chown -R storm:storm .
+      chown -R storm:storm /opt/storm/#{storm_name}
     """
   end
 end
@@ -99,7 +98,7 @@ template "/opt/storm/#{storm_name}/conf/storm.yaml" do
 end
 
 
-if node['hostname'] == node['storm']['nimbus_host'].split('.').first
+if node['storm']['is_nimbus'] == true || node['fqdn'] == node['storm']['nimbus_host']
   daemons = ['nimbus', 'ui']
 else
   daemons = ['supervisor']
