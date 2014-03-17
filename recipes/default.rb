@@ -109,6 +109,7 @@ daemons.each do |p|
     group: node['storm']['group'],
     user: node['storm']['user'],
     version: node['storm']['version'],
+    install_dir: node['storm']['install_dir'],
     process: p
   }
 
