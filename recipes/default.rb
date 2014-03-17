@@ -64,13 +64,13 @@ end
 directory "/opt/storm" do
   owner node['storm']['user']
   group node['storm']['group']
-  mode '0744'
+  mode '0755'
 end
 
 directory node['storm']['data_dir'] do
   owner node['storm']['user']
   group node['storm']['group']
-  mode '0744'
+  mode '0755'
 end
 
 unless ::File.exist?("/opt/storm/#{storm_name}")
@@ -78,7 +78,7 @@ unless ::File.exist?("/opt/storm/#{storm_name}")
     cwd Chef::Config[:file_cache_path]
     command """
       tar -C /opt/storm -xzf #{storm_name}.tar.gz && \
-      chown -R storm:storm /opt/storm/#{storm_name}
+      chown -R #{node['storm']['user']}:#{node['storm']['group']} /opt/storm/#{storm_name}
     """
   end
 end

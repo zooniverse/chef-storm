@@ -16,7 +16,7 @@ setgid <%= @group %>
 exec <%= @install_dir %>/storm-<%= @version %>/bin/storm <%= @process %>
 
 post-start script
-  PID=`status zookeeper | egrep -oi '([0-9]+)$' | head -n1`
+  PID=`status storm-<%= @process %> | egrep -oi '([0-9]+)$' | head -n1`
   echo $PID > <%= @install_dir  %>/<%= @process %>.pid
 end script
 
