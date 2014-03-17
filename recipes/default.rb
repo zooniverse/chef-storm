@@ -78,7 +78,7 @@ unless ::File.exist?("/opt/storm/#{storm_name}")
     cwd Chef::Config[:file_cache_path]
     command """
       tar -C /opt/storm -xzf #{storm_name}.tar.gz && \
-      chown -R #{node['storm']['user']}:#{node['storm']['group']} /opt/storm/#{storm_name}
+      chown -R #{node['storm']['user']}:#{node['storm']['group']} /opt/storm
     """
   end
 end
